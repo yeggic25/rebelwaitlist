@@ -29,7 +29,7 @@ export default async function handler(req, res) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      channel: "#lattice-rebel",
+      channel: "#rebel-daily-stats",
       text: message,
     }),
   });
