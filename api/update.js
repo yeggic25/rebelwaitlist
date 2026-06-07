@@ -17,10 +17,11 @@ export default async function handler(req, res) {
   });
 
   const phData = await phRes.json();
-  const rawCount = phData.results[0][0];
-  const total = rawCount + 273;
+  const waitlist = phData.results[0][0];
+  const accepted = 150;
+  const total = waitlist + accepted;
 
-  const message = `Rebel Audio Waitlist Update 📋\n✅ Total waitlisted: ${total}`;
+  const message = `Rebel Audio Waitlist Update 📋\nTotal Users: ${total}\nWaitlist: ${waitlist}\nAccepted: ${accepted}`;
 
   await fetch("https://slack.com/api/chat.postMessage", {
     method: "POST",
