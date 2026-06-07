@@ -14,17 +14,20 @@ POSTHOG_RESPONSE=$(curl -s -X POST "https://app.posthog.com/api/projects/372936/
     }
   }')
 
-RAW_COUNT=$(echo "$POSTHOG_RESPONSE" | python3 -c "import sys, json; print(json.load(sys.stdin)['results'][0][0])")
-TOTAL=$((RAW_COUNT + 273))
+WAITLIST=$(echo "$POSTHOG_RESPONSE" | python3 -c "import sys, json; print(json.load(sys.stdin)['results'][0][0])")
+ACCEPTED=150
+TOTAL=$((WAITLIST + ACCEPTED))
 
 MESSAGE="Rebel Audio Waitlist Update 📋
-✅ Total waitlisted: $TOTAL"
+Total Users: $TOTAL
+Waitlist: $WAITLIST
+Accepted: $ACCEPTED"
 
 curl -s -X POST "https://slack.com/api/chat.postMessage" \
   -H "Authorization: Bearer $SLACK_BOT_TOKEN" \
   -H "Content-Type: application/json" \
   -d "{
-    \"channel\": \"#lattice-rebel\",
+    \"channel\": \"#rebel-daily-stats\",
     \"text\": $(python3 -c "import sys, json; print(json.dumps(sys.argv[1]))" "$MESSAGE")
   }"
 
